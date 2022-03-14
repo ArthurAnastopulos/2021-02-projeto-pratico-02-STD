@@ -2,9 +2,28 @@
 
 ## Relatório - Compilação e Execução
 
-Para compilar e excutar o projeto utilizei a IDE IntelliJ onde utilizei o `build` e `run` da propria IDE. O `run` da aplicação se encontra em: `/src/main/java/engtelecom/std/projeto/Projeto02Application.java`. Para caso se optar por compilar pelo Terminal deve se seguir os seguintes passos apartir da raiz do Projeto:
+Para compilar e excutar o projeto utilizei a IDE IntelliJ onde utilizei o `build` e `run` da propria IDE. Portanto, execute a tarefa do gradle (task) chamada `bootRun` que, no meu da IDE, estará dentro da categoria `application`. Ao executar, será instanciado um processo que ficará aceitando conexões HTTP na porta 8080.
 
-```
+## Relatório - Exemplos para Consumir alguns recursos da API
+
+Para consumir o serviço REST desta aplicação foi utilizado o aplicativo de linha de comando: `curl`.
+
+```bash
+
+# Obtendo a lista com todos os dispositivos no sistema
+curl -L -X GET 'http://localhost:8080/api/v1/dispositivos'
+# Obtendo uma lista de objetos de um tipo de dispositivo especifico
+curl -L -X GET 'http://localhost:8080/api/v1/dispositivos/arcondicionado'
+# Obtendo e atualizando um tipo dispositivos de especifio apartir de seu id 
+curl -L -X GET 'http://localhost:8080/api/v1/dispositivos/arcondicionado/arCondicionado2'
+curl -L -X PUT 'http://localhost:8080/api/v1/dispositivos/arcondicionado/arCondicionado2' -H 'Content-Type: application/json' --data-raw '{ "temperatura": 10, "ativo":false }'
+# Obtendo/Criando/Atualizando/Deletendo um Ambiente
+curl -L -X POST 'http://localhost:8080/sala' \
+-H 'Content-Type: application/json' \
+--data-raw '{ "dispositivos":["lampada1", "tv1"] }'
+curl -L -X GET 'http://localhost:8080/api/v1/ambiente/sala'
+curl -L -X PUT 'http://localhost:8080/api/v1/ambiente/sala' -H 'Content-Type: application/json' --data-raw '{ "dispositivos":["lampada4", "tv3"] }'
+curl -L -X DELETE 'http://localhost:8080/api/v1/ambiente/sala'
 ```
 
 ## Relatório - Tabela de Funcionalidades Implementadas
