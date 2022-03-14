@@ -1,0 +1,757 @@
+openapi: '3.0.2'
+info:
+  title: API RESTful
+  version: '1.0'
+servers:
+  - url: https://localhost/v1
+paths:
+  /ambiente:
+    get:
+      summary: "Obtém todos os ambientes"
+      description: "Retorna uma lista com todos os ambientes"
+      operationId: get-ambientes
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ambientes"
+        "400":
+          description: "Bad Request"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "Não possui nenhum ambiente criado"        
+
+  /ambiente/{local}:
+    parameters:
+      - $ref: "#/components/parameters/ambienteParam"
+    get:
+      summary: "Obtém todos os dados de um ambiente"
+      description: "Retorna o objeto daquele ambiente"
+      operationId: get-ambiente
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ambiente"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    post:
+      summary: "Adiciona um ambiente novo"
+      description: "Retorna o objeto do ambiente adicionado"
+      operationId: post-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ambiente"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ambiente"    
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"        
+    put:
+      summary: "Atualiza um ambiente"
+      description: "Retorna o objeto daquele ambiente"
+      operationId: put-ambiente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ambiente"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ambiente"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"        
+    delete:
+      summary: "Deleta um ambiente"
+      description: "Retorna uma mensagem de erro caso nao exista aquele ambiente"
+      operationId: delete-ambiente
+      responses:
+        "200":
+          description: "OK"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+
+  /cenarios:
+    get:
+      summary: "Obtém todos os cenarios disponiveis"
+      description: "Retorna uma lista com todos os cenarios (rotinas)"
+      operationId: get-cenarios
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cenarios"
+  /cenarios/{rotina}:
+    parameters:
+      - $ref: "#/components/parameters/rotinaParam"
+    get:
+      summary: "Obtém o objeto de um cenario especifico"
+      description: "Retorna um objeto do cenario desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cenario"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"        
+    post:
+      summary: "Adiciona um cenario novo a Central de Automação"
+      description: "Retorna o objeto do cenario adiconado"
+      operationId: post-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cenario"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cenario"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"        
+    put:
+      summary: "Atualiza um cenario apartir de sua rotina"
+      description: "Retorna o objeto de cenario atualizado"
+      operationId: put-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cenario"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cenario"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    delete:
+      summary: "Deleta o cenario desejado"
+      description: "Retorna uma mensagem de erro caso nao exista aquele cenario"
+      operationId: delete-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cenario"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos:
+    get:
+      summary: "Lista com o indentificador de todos os dispositivos disponiveis no Centro de Automação"
+      description: "Retorna um array com todos os identificadores"
+      operationId: get-dispositivos
+      responses:
+        "200":
+            description: "OK"
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/dispositivos"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/arcondicionado:
+    get:
+      summary: "Obtém todos os objetos de ArCondicionado"
+      description: "Retorna uma lista de objetos desejado"
+      operationId: get-dispositivo-arcondicionado
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/arCondicionado"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/arcondicionado/{id}:
+    parameters:
+      - $ref: "#/components/parameters/idParam"
+    get:
+      summary: "Obtém o objeto de um arCondicionado especifico"
+      description: "Retorna um objeto do arCondicionado desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/arCondicionado"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    put:
+      summary: "Atualiza um arCondicionado apartir de seu id"
+      description: "Retorna o objeto de arCondicionado atualizado"
+      operationId: put-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/arCondicionado"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/arCondicionado"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"  
+  /dispositivos/cortina:
+    get:
+      summary: "Obtém todos os objeto de um cortina"
+      description: "Retorna uma lista objeto do cortina desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cortina"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/cortina/{id}:
+    parameters:
+      - $ref: "#/components/parameters/idParam"
+    get:
+      summary: "Obtém o objeto de um cortina especifico"
+      description: "Retorna um objeto do cortina desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cortina"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    put:
+      summary: "Atualiza um cortina apartir de seu id"
+      description: "Retorna o objeto de cortina atualizado"
+      operationId: put-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/cortina"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cortina"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"  
+  /dispositivos/lampada:
+    get:
+      summary: "Obtém todos os objeto de um lampada"
+      description: "Retorna um objeto do lampada desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/lampada"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/lampada/{id}:
+    parameters:
+      - $ref: "#/components/parameters/idParam"
+    get:
+      summary: "Obtém o objeto de um lampada especifico"
+      description: "Retorna um objeto do lampada desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/lampada"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    put:
+      summary: "Atualiza um lampada apartir de seu id"
+      description: "Retorna o objeto de lampada atualizado"
+      operationId: put-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/lampada"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/lampada"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/sistemasom:
+    get:
+      summary: "Obtém todos os objeto de um sistemasom"
+      description: "Retorna um objeto do sistemasom desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/sistemaSom"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/sistemasom/{id}:
+    parameters:
+      - $ref: "#/components/parameters/idParam"
+    get:
+      summary: "Obtém o objeto de um sistemaSom especifico"
+      description: "Retorna um objeto do sistemaSom desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/sistemaSom"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    put:
+      summary: "Atualiza um sistemaSom apartir de seu id"
+      description: "Retorna o objeto de sistemaSom atualizado"
+      operationId: put-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sistemaSom"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/sistemaSom"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/portaoeletronico:
+    get:
+      summary: "Obtém todos os objeto de um portaoeletronico"
+      description: "Retorna um objeto do portaoeletronico desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/portaoEletronico"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/portaoeletronico/{id}:
+    parameters:
+      - $ref: "#/components/parameters/idParam"
+    get:
+      summary: "Obtém o objeto de um portaoeletronico especifico"
+      description: "Retorna um objeto do portaoeletronico desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/portaoEletronico"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    put:
+      summary: "Atualiza um portaoeletronico apartir de sua rotina"
+      description: "Retorna o objeto de portaoeletronico atualizado"
+      operationId: put-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/portaoEletronico"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/portaoEletronico"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/tv:
+    get:
+      summary: "Obtém todos objeto de um tv"
+      description: "Retorna um objeto do tv desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/cenario"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+  /dispositivos/tv/{id}:
+    parameters:
+      - $ref: "#/components/parameters/idParam"
+    get:
+      summary: "Obtém o objeto de um tv especifico"
+      description: "Retorna um objeto do tv desejado"
+      operationId: get-cenario
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tv"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+    put:
+      summary: "Atualiza um tv apartir de seu id"
+      description: "Retorna o objeto de tv atualizado"
+      operationId: put-cenario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/tv"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/tv"
+        "404":
+          description: "Not Found"
+          content:
+            text/html:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+              example: "ambiente não encontrado"
+
+                                                                                                                                                                                                                                                             
+components:
+  parameters:
+    ambienteParam:
+      description: 'Ambiente a ser agrupado os dispositivos inteligentes'
+      name: local
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/ambiente"
+    idParam:
+      description: 'Identificador de um dipositivo'
+      name: id
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/id"
+    rotinaParam:
+      description: "Um cenario de rotina para um dispositivo seguir"
+      name: cenario
+      in: path
+      required: true
+      schema:
+        $ref: "#/components/schemas/rotina"
+  schemas:
+    ambiente:
+      type: object
+      description: 'Objeto do Ambiente'
+      properties:
+        local:
+          $ref: "#/components/schemas/local"
+        dispositivos:
+          $ref: "#/components/schemas/dispositivos"
+    ambientes:
+        type: array
+        description: "Lista de Ambientes"
+        items:
+          $ref: "#/components/schemas/ambiente"
+    lampada:
+      type: object
+      description: "Objeto de um dispositivo"
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        ativo:
+          $ref: "#/components/schemas/ativo"
+    tv:
+      type: object
+      description: "Objeto de um dispositivo"
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        ativo:
+          $ref: "#/components/schemas/ativo"
+        volume:
+           $ref: "#/components/schemas/volume"
+    sistemaSom:
+      type: object
+      description: "Objeto de um dispositivo"
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        ativo:
+          $ref: "#/components/schemas/ativo"
+        volume:
+            $ref: "#/components/schemas/volume"
+    arCondicionado:
+      type: object
+      description: "Objeto de um dispositivo"
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        ativo:
+          $ref: "#/components/schemas/ativo"
+        temperatura:
+            $ref: "#/components/schemas/temperatura"
+    cortina:
+      type: object
+      description: "Objeto de um dispositivo"
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        status:
+          $ref: "#/components/schemas/status"
+    portaoEletronico:
+      type: object
+      description: "Objeto de um dispositivo"
+      properties:
+        id:
+          $ref: "#/components/schemas/id"
+        status:
+          $ref: "#/components/schemas/status"                             
+    dispositivos:
+      type: array
+      description: "Lista de dispositivos"
+      example: '["arCondicionado1","arCondicionado2","arCondicionado3","arCondicionado4","cortina1","cortina2","cortina3","cortina4","lampada1","lampada2","lampada3","lampada4","portaoEletronico1","portaoEletronico2","portaoEletronico3","portaoEletronico4","sistemaSom1","sistemaSom2","sistemaSom3","sistemaSom4","tv1","tv2","tv3","tv4"]'                                
+    cenario: 
+      type: object
+      description: "Cenario para um dispositivo"
+      properties:
+        rotina:
+          $ref: "#/components/schemas/rotina"
+    cenarios:
+      type: array
+      description: "Lista de cenarios disponiveis (rotinas)"
+      items:
+        $ref: "#/components/schemas/cenario"
+    local:
+      type: string
+      description: "Nome do Ambiente"
+      example: "quarto"
+    id:
+      type: string
+      description: "Identificador do dispositivo"
+      example: "lampada1"
+    status:
+      type: boolean
+      description: "Troca o status de um dispositivo, como ligar/desligar ou abrir/fechar"
+      example: 'ligar'
+    ativo:
+      type: boolean
+      description: "Troca o status de um dispositivo, como ligar/desligar ou abrir/fechar"
+      example: 'ligar'  
+    volume:
+      type: integer
+      description: "Valor atual do volume do Som do dispositivo"
+      minimum: 0
+      maximum: 100
+      example: 25
+    temperatura:
+      type: integer
+      description: "Valor atual da temperatura desejada"
+      minimum: 18
+      maximum: 24
+      example: 20
+    rotina:
+      type: string
+      description: "Possiveis valores de rotinas de um cenario"
+      example: "fim de semana"
+    errorMessage:
+      type: string
+      maxLength: 256
+      description: "mensagem de texto para descrever o erro"
